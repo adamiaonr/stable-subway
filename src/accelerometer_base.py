@@ -62,7 +62,7 @@ def plot_accelerometer_session(data, output_dir):
             ax.set_ylim(math.floor(min(subway_ride_data[subplot_codes[code].split(":")[0]])), math.ceil(max(subway_ride_data[subplot_codes[code].split(":")[0]])))
             ax.set_yticks( np.arange(y_min, y_max + 1, step = 1.0) )
 
-            ax.set_ylabel("accel. (m^2 / s)")
+            ax.set_ylabel("accel. (m / s^2)")
 
             # print event vertical lines
             added_labels = []
