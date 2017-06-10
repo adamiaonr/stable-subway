@@ -77,13 +77,16 @@ def extract_data(data_dir):
 
     for file_name in sorted(glob.glob(os.path.join(data_dir, '*.tsv'))):
 
-        session_id = file_name.split(".")[0].split("_")[-1]
-        # print("filename = %s, type = %s, label = %s" % (file_name, file_type, file_label))
+        session_id = file_name.split(".")[0].split("_", 2)[-1]
+        print("filename = %s, session_id = %s" % (file_name, session_id))
         data[session_id] = pd.read_csv(file_name, sep = "\t")
         data[session_id] = data[session_id].convert_objects(convert_numeric = True)
         # convert timestamp column to datetime obj
         # data[session_id]['accelerometer.seconds.Unix'] = pd.to_datetime(data[session_id]['accelerometer.seconds.Unix'], unit = 's')
         # rename columns
         data[session_id].columns = ['n', 'session', 'time', 'acc-xx', 'acc-yy', 'acc-zz', 'acc-total', 'event-type', 'event-descr']
+
+    for session_id in data:
+        print(session_id)
 
     return data

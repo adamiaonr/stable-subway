@@ -20,9 +20,6 @@ matplotlib.rcParams.update({'font.size': 16})
 
 def plot_accelerometer_session(data, output_dir):
 
-    # 4 stacked subplots (4 lines, 1 column), one line 
-    # per axix (xx, yy and zz) + total
-    fig = plt.figure(figsize = (12, 12))
     # codes for subplots (labels, colors, etc.)
     subplot_codes = {411 : 'acc-xx:red', 412 : 'acc-yy:green', 413 : 'acc-zz:blue', 414 : 'acc-total:black'}
     # event codes
@@ -31,14 +28,26 @@ def plot_accelerometer_session(data, output_dir):
     # FIXME : assume only 1 section for now
     for session_id in data:
 
+        # extract start and stop stations
+        start_station = session_id.split("_")[1].replace("-", " ").upper()
+        end_station = session_id.split("_")[2].replace("-", " ").upper()
+
+        # 4 stacked subplots (4 lines, 1 column), one line 
+        # per axix (xx, yy and zz) + total
+        fig = plt.figure(figsize = (12, 12))
+
         # extract the rows with events on them (dropping all lines with 'NaN' values on them)
         events = data[session_id].dropna()
         # determine the start of the subway ride (event-type 's', event-descr 'e')
-        start_timestamp = events.iloc[0]['time'] - 10
-        end_timestamp = events.iloc[-1]['time'] + 10
+        start_timestamp = events.iloc[0]['time'] - 2
+        end_timestamp = events.iloc[-1]['time'] + 2
 
         # truncate data for values after the start of the subway ride
         subway_ride_data = data[session_id][ (data[session_id]['time'] >= start_timestamp) & (data[session_id]['time'] <= end_timestamp) ]
+        # remove outliers (only consider values within +2 to -2 std dev)
+        for code in subplot_codes:
+            subway_ride_data = subway_ride_data[np.abs(subway_ride_data[subplot_codes[code].split(":")[0]] - subway_ride_data[subplot_codes[code].split(":")[0]].mean()) <= (3 * subway_ride_data[subplot_codes[code].split(":")[0]].std())]
+
         # change 'time' column to seconds after start of ride
         subway_ride_data['time'] = (subway_ride_data['time'] - start_timestamp)
         events['time'] = (events['time'] - start_timestamp)
@@ -48,7 +57,7 @@ def plot_accelerometer_session(data, output_dir):
             ax = fig.add_subplot(code)
             # if 1st subplot, add title
             if (code == 411):
-                ax.set_title("IPO > Trindade")
+                ax.set_title(start_station + " > " + end_station)
 
             ax.xaxis.grid(False)
             ax.yaxis.grid(True)
@@ -56,10 +65,10 @@ def plot_accelerometer_session(data, output_dir):
             ax.plot(subway_ride_data['time'], subway_ride_data[subplot_codes[code].split(":")[0]], color = subplot_codes[code].split(":")[1])
             ax.legend(fontsize = 10, ncol = 1, loc = 'upper left')
 
-            y_min = math.floor(min(subway_ride_data[subplot_codes[code].split(":")[0]])) 
+            y_min = math.floor(min(subway_ride_data[subplot_codes[code].split(":")[0]]))
             y_max = math.ceil(max(subway_ride_data[subplot_codes[code].split(":")[0]]))
 
-            ax.set_ylim(math.floor(min(subway_ride_data[subplot_codes[code].split(":")[0]])), math.ceil(max(subway_ride_data[subplot_codes[code].split(":")[0]])))
+            ax.set_ylim(math.floor(min(subway_ride_data[subplot_codes[code].split(":")[0]])), math.ceil(max(subway_ride_data[subplot_codes[code].split(":")[0]])) + 0.5)
             ax.set_yticks( np.arange(y_min, y_max + 1, step = 1.0) )
 
             ax.set_ylabel("accel. (m / s^2)")
@@ -75,13 +84,13 @@ def plot_accelerometer_session(data, output_dir):
                 else:
                     ax.axvline(event['time'], color = event_codes[event['event-descr']].split(":")[1], linestyle = event_codes[event['event-descr']].split(":")[2])
 
-            ax.legend(fontsize = 10, ncol = 6, loc = 'upper center')            
+            ax.legend(fontsize = 12, ncol = 6, loc = 'upper center')            
 
         ax.set_xlabel("subway trip duration")
 
-    # accelerometer_components = ['xx', 'yy', 'zz', 'avg. total']
-    # accelerometer_components_colors = ['red', 'green', 'blue', 'black']
+        # accelerometer_components = ['xx', 'yy', 'zz', 'avg. total']
+        # accelerometer_components_colors = ['red', 'green', 'blue', 'black']
 
-    plt.savefig(os.path.join(output_dir, "accelerometer-session.pdf"), bbox_inches='tight', format = 'pdf')
+        plt.savefig(os.path.join(output_dir, "accelerometer-session-" + session_id.split("_")[0] + ".pdf"), bbox_inches='tight', format = 'pdf')
 
 
