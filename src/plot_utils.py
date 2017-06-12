@@ -86,7 +86,4 @@ def extract_data(data_dir):
         # rename columns
         data[session_id].columns = ['n', 'session', 'time', 'acc-xx', 'acc-yy', 'acc-zz', 'acc-total', 'event-type', 'event-descr']
 
-    for session_id in data:
-        print(session_id)
-
     return data

@@ -52,6 +52,7 @@ if __name__ == "__main__":
 
     if args.case == 'base':
         accelerometer_base.plot_accelerometer_session(data, args.output_dir)
+        accelerometer_base.plot_acceleration_patterns(data, args.output_dir)
 
     else:
         sys.stderr.write("""%s: [ERROR] please supply a valid case\n""" % sys.argv[0]) 
