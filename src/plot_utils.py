@@ -68,6 +68,11 @@ def interleave(a, b):
     c = list(zip(a, b))
     return [elt for sublist in c for elt in sublist]
 
+def move_to_processed(data_dir):
+
+    for file_name in sorted(glob.glob(os.path.join(os.path.join(data_dir, "unprocessed"), '*.tsv'))):
+        os.rename(file_name, os.path.join(os.path.join(data_dir, "processed"), file_name.split("/")[-1]))
+
 def extract_data(data_dir):
 
     """ given a dir w/ .tsv files, extracts data from .tsv file into 
@@ -75,6 +80,7 @@ def extract_data(data_dir):
 
     data = defaultdict(OrderedDict)
 
+    data_dir = os.path.join(data_dir, "unprocessed")
     for file_name in sorted(glob.glob(os.path.join(data_dir, '*.tsv'))):
 
         session_id = file_name.split(".")[0].split("_", 2)[-1]
