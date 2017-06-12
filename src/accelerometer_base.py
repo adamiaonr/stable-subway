@@ -133,6 +133,7 @@ def plot_acceleration_patterns(data, output_dir):
         fig_1.tight_layout()
         fig_1.subplots_adjust(top = 0.95)
 
+        output_dir = os.path.join(output_dir, "patterns")
         plt.savefig(os.path.join(output_dir, "acceleration-patterns-" + session_id.split("_")[0] + ".pdf"), bbox_inches = 'tight', format = 'pdf')
 
 def plot_accelerometer_session(data, output_dir):
@@ -206,6 +207,7 @@ def plot_accelerometer_session(data, output_dir):
         # accelerometer_components = ['xx', 'yy', 'zz', 'avg. total']
         # accelerometer_components_colors = ['red', 'green', 'blue', 'black']
 
+        output_dir = os.path.join(output_dir, "sessions")
         plt.savefig(os.path.join(output_dir, "accelerometer-session-" + session_id.split("_")[0] + ".pdf"), bbox_inches='tight', format = 'pdf')
 
 

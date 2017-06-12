@@ -58,3 +58,6 @@ if __name__ == "__main__":
         sys.stderr.write("""%s: [ERROR] please supply a valid case\n""" % sys.argv[0]) 
         parser.print_help()
         sys.exit(1)
+
+    # move input files to processed folder
+    plot_utils.move_to_processed(args.data_dir)
