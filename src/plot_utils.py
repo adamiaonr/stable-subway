@@ -6,6 +6,7 @@ import os
 import argparse
 import sys
 import glob
+import math
 
 import xml.etree.cElementTree as et
 
@@ -32,6 +33,9 @@ OUTCOME_TTL_DROP             = 5
 OUTCOME_UNDEF                = 6
 
 ileave = lambda *iters: list(chain(*izip(*iters)))
+
+def custom_ceil(num_to_round, step = 0.25):
+    return (step * math.ceil(num_to_round / step))
 
 # full method with doctests
 def interleave_n(*iters):

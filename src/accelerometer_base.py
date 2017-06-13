@@ -113,11 +113,13 @@ def plot_acceleration_patterns(data, output_dir):
 
                     # and of yy_max
                     if (code + i) not in yy_max:
-                        yy_max[code + i] = math.ceil(max(selection[subplot_codes[code].split(":")[0]])) - 0.25
+                        # round up till the next .25 number
+                        yy_max[code + i] = custom_ceil(max(selection[subplot_codes[code].split(":")[0]]))
+
                     else:
 
-                        if math.ceil(max(selection[subplot_codes[code].split(":")[0]])) > yy_max[code + i]:
-                            yy_max[code + i] = math.ceil(max(selection[subplot_codes[code].split(":")[0]])) - 0.25
+                        if custom_ceil(max(selection[subplot_codes[code].split(":")[0]])) > yy_max[code + i]:
+                            yy_max[code + i] = custom_ceil(max(selection[subplot_codes[code].split(":")[0]]))
 
                     subplots[code + i].set_ylim(yy_min[code + i], yy_max[code + i])
                     subplots[code + i].set_yticks( np.arange(yy_min[code + i], yy_max[code + i] + 0.25, step = 0.25) )
@@ -133,8 +135,8 @@ def plot_acceleration_patterns(data, output_dir):
         fig_1.tight_layout()
         fig_1.subplots_adjust(top = 0.95)
 
-        output_dir = os.path.join(output_dir, "patterns")
-        plt.savefig(os.path.join(output_dir, "acceleration-patterns-" + session_id.split("_")[0] + ".pdf"), bbox_inches = 'tight', format = 'pdf')
+        out_dir = os.path.join(output_dir, "patterns")
+        plt.savefig(os.path.join(out_dir, "acceleration-patterns-" + session_id.split("_")[0] + ".pdf"), bbox_inches = 'tight', format = 'pdf')
 
 def plot_accelerometer_session(data, output_dir):
 
@@ -207,7 +209,8 @@ def plot_accelerometer_session(data, output_dir):
         # accelerometer_components = ['xx', 'yy', 'zz', 'avg. total']
         # accelerometer_components_colors = ['red', 'green', 'blue', 'black']
 
-        output_dir = os.path.join(output_dir, "sessions")
-        plt.savefig(os.path.join(output_dir, "accelerometer-session-" + session_id.split("_")[0] + ".pdf"), bbox_inches='tight', format = 'pdf')
+        out_dir = os.path.join(output_dir, "sessions")
+        print(output_dir)
+        plt.savefig(os.path.join(out_dir, "accelerometer-session-" + session_id.split("_")[0] + ".pdf"), bbox_inches='tight', format = 'pdf')
 
 

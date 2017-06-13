@@ -1,5 +1,11 @@
-file	how-smooth
-accelerometer_session_15993_ipo_trindade	not smooth
-accelerometer_session_16032_casa-da-musica_dragao	not smooth
-accelerometer_session_16033_dragao_casa-da-musica	smooth
-accelerometer_session_16074_trindade_ipo	somewhat-smooth
+file	how-smooth	train-model
+accelerometer_session_15993_ipo_trindade	not-smooth	old
+accelerometer_session_16032_casa-da-musica_dragao	not-smooth	old
+accelerometer_session_16033_dragao_casa-da-musica	smooth	old
+accelerometer_session_16074_trindade_ipo	somewhat-smooth	old
+accelerometer_session_16090_ipo_trindade	not-smooth	old
+accelerometer_session_16091_trindade_casa-da-musica	very-smooth	new
+accelerometer_session_16095_casa-da-musica_dragao	somewhat-smooth	new
+accelerometer_session_16095_casa-da-musica_dragao	smooth	new
+accelerometer_session_16101_casa-da-musica_trindade	somewhat-smooth	old
+accelerometer_session_16102_trindade_ipo	somewhat-smooth	old
