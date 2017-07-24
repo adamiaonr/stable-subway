@@ -107,9 +107,9 @@ def plot_acceleration_patterns(data, output_dir):
                     if (code + i) not in yy_min:
                         yy_min[code + i] = math.floor(min(selection[subplot_codes[code].split(":")[0]]))
                     else:
-
-                        if math.floor(min(selection[subplot_codes[code].split(":")[0]])) < yy_min[code + i]:
-                            yy_min[code + i] = math.floor(min(selection[subplot_codes[code].split(":")[0]]))
+                        curr_min = math.floor(min(selection[subplot_codes[code].split(":")[0]]))
+                        if curr_min < yy_min[code + i]:
+                            yy_min[code + i] = curr_min
 
                     # and of yy_max
                     if (code + i) not in yy_max:
@@ -117,9 +117,9 @@ def plot_acceleration_patterns(data, output_dir):
                         yy_max[code + i] = custom_ceil(max(selection[subplot_codes[code].split(":")[0]]))
 
                     else:
-
-                        if custom_ceil(max(selection[subplot_codes[code].split(":")[0]])) > yy_max[code + i]:
-                            yy_max[code + i] = custom_ceil(max(selection[subplot_codes[code].split(":")[0]]))
+                        curr_max = custom_ceil(max(selection[subplot_codes[code].split(":")[0]]))
+                        if curr_max > yy_max[code + i]:
+                            yy_max[code + i] = curr_max
 
                     subplots[code + i].set_ylim(yy_min[code + i], yy_max[code + i])
                     subplots[code + i].set_yticks( np.arange(yy_min[code + i], yy_max[code + i] + 0.25, step = 0.25) )
